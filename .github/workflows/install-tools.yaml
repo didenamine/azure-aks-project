@@ -43,10 +43,10 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.16.0
-      # The tools use their own state file, separate from the infrastructure state
+      # The tools use their own state file (aks-tools/studentid/terraform.tfstate), separate from the infrastructure state
       - name: Init
         working-directory: ./aks-tools
-        run:  terraform init -backend-config="resource_group_name=${{ secrets.TF_BACKEND_RG }}" -backend-config="storage_account_name=${{ secrets.TF_BACKEND_STORAGE_ACCOUNT }}" -backend-config="container_name=${{ secrets.TF_BACKEND_CONTAINER }}" -backend-config="key=aks-tools-${{ secrets.TF_BACKEND_KEY }}"
+        run:  terraform init -backend-config="resource_group_name=${{ secrets.TF_BACKEND_RG }}" -backend-config="storage_account_name=${{ secrets.TF_BACKEND_STORAGE_ACCOUNT }}" -backend-config="container_name=${{ secrets.TF_BACKEND_CONTAINER }}" -backend-config="key=${{ secrets.TF_TOOLS_BACKEND_KEY }}"
       - name: Terraform workspace select
         working-directory: ./aks-tools
         run: terraform workspace select ${{ github.event.inputs.workspace }} || terraform workspace new ${{ github.event.inputs.workspace }}

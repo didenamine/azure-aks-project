@@ -20,3 +20,4 @@ terraform.rc
 
 # Kubeconfig
 kubeconfig*
+!terraform.tfvars
